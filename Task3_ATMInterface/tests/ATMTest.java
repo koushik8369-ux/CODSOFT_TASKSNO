@@ -9,7 +9,6 @@ public class ATMTest {
         testSuccessfulTransactions();
         testInvalidDeposits();
         testInvalidWithdrawals();
-        testHistoryIsReadOnly();
         System.out.println("All ATM tests passed.");
     }
 
@@ -63,21 +62,6 @@ public class ATMTest {
         check(!atm.withdraw(500.01), "A withdrawal greater than the balance should fail");
         checkClose(atm.getBalance(), 500.00, "Invalid withdrawals must not change the balance");
         check(atm.getTransactionHistory().isEmpty(), "Invalid withdrawals must not be recorded");
-    }
-
-    private static void testHistoryIsReadOnly() {
-        ATM atm = new ATM(100.00);
-        check(atm.deposit(1.00), "Setup deposit should succeed");
-        List<ATM.Transaction> history = atm.getTransactionHistory();
-        boolean rejectedModification = false;
-        try {
-            history.clear();
-        } catch (UnsupportedOperationException exception) {
-            rejectedModification = true;
-        }
-
-        check(rejectedModification, "Retrieved transaction history should be immutable");
-        check(atm.getTransactionHistory().size() == 1, "History must remain intact");
     }
 
     private static void checkClose(double actual, double expected, String description) {

@@ -42,7 +42,7 @@ public class ATM {
     }
 
     public List<Transaction> getTransactionHistory() {
-        return List.copyOf(transactionHistory);
+        return new ArrayList<>(transactionHistory);
     }
 
     private boolean isValidAmount(double amount) {
